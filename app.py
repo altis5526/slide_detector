@@ -16,9 +16,10 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         # ui_file_path = os.path.join(sys._MEIPASS, 'app_design.ui')
+        ui_file_path = "./app_design.ui"
 
         self.setWindowTitle("My App")
-        uic.loadUi('app_design.ui', self)
+        uic.loadUi(ui_file_path, self)
 
         self.first = First()
         self.stackedWidget.addWidget(self.first)
@@ -44,6 +45,9 @@ class MainWindow(QMainWindow):
 # If you know you won't use command line arguments QApplication([]) works too.
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    # icon_file_path = os.path.join(sys._MEIPASS, 'icon.png')
+    # app_icon = QIcon(icon_file_path)
+    # app.setWindowIcon(app_icon)
 
     # Create a Qt widget, which will be our window.
     window = MainWindow()

@@ -15,7 +15,8 @@ class Second(QWidget):
         super(Second, self).__init__()
         ssl._create_default_https_context = ssl._create_stdlib_context
         # ui_file_path = os.path.join(sys._MEIPASS, 'second_page.ui')
-        uic.loadUi('second_page.ui', self)
+        ui_file_path = "./second_page.ui"
+        uic.loadUi(ui_file_path, self)
         self.LoadButton.clicked.connect(lambda: self.open("load"))
         self.ChooseOutputButton.clicked.connect(lambda: self.open("output"))
 
@@ -25,7 +26,7 @@ class Second(QWidget):
         if method == "load":
             if self.URLEdit.text():
                 if self.check_video_url(self.URLEdit.text()):
-                    self.worker = DownloadWorker(self.URLEdit.text())
+                    self.worker = DownloadWorker(self.URLEdit.text(), self.output)
                     self.thread = QThread()
                     self.worker.moveToThread(self.thread)
                     self.worker.start.connect(self.downloading_display)
@@ -66,13 +67,14 @@ class DownloadWorker(QObject):
     finished = pyqtSignal()
     finished_download = pyqtSignal()
     
-    def __init__(self, url):
+    def __init__(self, url, output_path):
         super(DownloadWorker, self).__init__()
         self.url = url
+        self.output_path = output_path
     
     def download(self):
         self.start.emit()
         yt = YouTube(self.url)
-        yt.streams.filter().get_highest_resolution().download()
+        yt.streams.filter().get_highest_resolution().download(self.output_path)
         self.finished.emit()
         self.finished_download.emit()

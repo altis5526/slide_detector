@@ -14,7 +14,8 @@ class First(QWidget):
     def __init__(self):
         super(First, self).__init__()
         # ui_file_path = os.path.join(sys._MEIPASS, 'first_page.ui')
-        uic.loadUi('first_page.ui', self)
+        ui_file_path = "./first_page.ui"
+        uic.loadUi(ui_file_path, self)
         
 
         # # Set the central widget of the Window.
